@@ -5,6 +5,10 @@ from FunctionEncoder.Model.Architecture.BaseArchitecture import BaseArchitecture
 
 # Returns the desired activation function by name
 def get_activation( activation):
+    if activation == "identity":
+        return torch.nn.Identity()
+    if activation == "silu":
+        return torch.nn.SiLU()
     if activation == "relu":
         return torch.nn.ReLU()
     elif activation == "tanh":

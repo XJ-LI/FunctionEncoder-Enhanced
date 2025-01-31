@@ -10,6 +10,8 @@ from FunctionEncoder.Model.Architecture.CNN import CNN
 from FunctionEncoder.Model.Architecture.Euclidean import Euclidean
 from FunctionEncoder.Model.Architecture.MLP import MLP
 from FunctionEncoder.Model.Architecture.ParallelMLP import ParallelMLP
+from FunctionEncoder.Model.Architecture.Efficient_KAN import KAN
+
 
 
 class FunctionEncoder(torch.nn.Module):
@@ -58,6 +60,8 @@ class FunctionEncoder(torch.nn.Module):
             assert len(input_size) == 1, "MLP only supports 1D input"
         if model_type == "ParallelMLP":
             assert len(input_size) == 1, "ParallelMLP only supports 1D input"
+        if model_type == "KAN":
+            assert len(input_size) == 1, "KAN only supports 1D input"
         if model_type == "CNN":
             assert len(input_size) == 3, "CNN only supports 3D input"
         if isinstance(model_type, type):
@@ -125,6 +129,12 @@ class FunctionEncoder(torch.nn.Module):
                            **model_kwargs)
             if model_type == "ParallelMLP":
                 return ParallelMLP(input_size=self.input_size,
+                                   output_size=self.output_size,
+                                   n_basis=self.n_basis,
+                                   learn_basis_functions=not average_function,
+                                   **model_kwargs)
+            if model_type == "KAN":
+                return KAN(input_size=self.input_size,
                                    output_size=self.output_size,
                                    n_basis=self.n_basis,
                                    learn_basis_functions=not average_function,
@@ -652,6 +662,10 @@ class FunctionEncoder(torch.nn.Module):
             n_params += MLP.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=True, **model_kwargs)
             if use_residuals_method:
                 n_params += MLP.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=False, **model_kwargs)
+        if model_type == "KAN":
+            n_params += KAN.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=True, **model_kwargs)
+            if use_residuals_method:
+                n_params += KAN.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=False, **model_kwargs)
         elif model_type == "ParallelMLP":
             n_params += ParallelMLP.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=True, **model_kwargs)
             if use_residuals_method:
