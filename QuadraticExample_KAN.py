@@ -27,7 +27,11 @@ parser.add_argument("--grid_size", type=int, default=10)
 parser.add_argument("--spline_order", type=int, default=3)
 
 args = parser.parse_args()
-
+'''
+hyperparameter tuning can be tricky for KAN models, for instance in this case the grid range needs to be from -10 to 10 in order to work
+similarly need to adjust grid size, spline order...etc. for better accuracy
+on the other hand, # of layers and hidden neurons play little role in performance
+'''
 
 # hyper params
 epochs = args.epochs

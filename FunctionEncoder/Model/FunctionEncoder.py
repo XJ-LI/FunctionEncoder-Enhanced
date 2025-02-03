@@ -127,13 +127,13 @@ class FunctionEncoder(torch.nn.Module):
                            n_basis=self.n_basis,
                            learn_basis_functions=not average_function,
                            **model_kwargs)
-            if model_type == "ParallelMLP":
+            elif model_type == "ParallelMLP":
                 return ParallelMLP(input_size=self.input_size,
                                    output_size=self.output_size,
                                    n_basis=self.n_basis,
                                    learn_basis_functions=not average_function,
                                    **model_kwargs)
-            if model_type == "KAN":
+            elif model_type == "KAN":
                 return KAN(input_size=self.input_size,
                                    output_size=self.output_size,
                                    n_basis=self.n_basis,
@@ -151,7 +151,7 @@ class FunctionEncoder(torch.nn.Module):
                            learn_basis_functions=not average_function,
                            **model_kwargs)
             else:
-                raise ValueError(f"Unknown model type: {model_type}. Should be one of 'MLP', 'ParallelMLP', 'Euclidean', or 'CNN'")
+                raise ValueError(f"Unknown model type: {model_type}. Should be one of 'MLP', 'ParallelMLP', 'KAN', 'Euclidean', or 'CNN'")
         else:  # otherwise, assume it is a class and directly instantiate it
             return model_type(input_size=self.input_size,
                               output_size=self.output_size,
@@ -662,7 +662,7 @@ class FunctionEncoder(torch.nn.Module):
             n_params += MLP.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=True, **model_kwargs)
             if use_residuals_method:
                 n_params += MLP.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=False, **model_kwargs)
-        if model_type == "KAN":
+        elif model_type == "KAN":
             n_params += KAN.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=True, **model_kwargs)
             if use_residuals_method:
                 n_params += KAN.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=False, **model_kwargs)
@@ -683,7 +683,7 @@ class FunctionEncoder(torch.nn.Module):
             if use_residuals_method:
                 n_params += model_type.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=False, **model_kwargs)
         else:
-            raise ValueError(f"Unknown model type: '{model_type}'. Should be one of 'MLP', 'ParallelMLP', 'Euclidean', or 'CNN'")
+            raise ValueError(f"Unknown model type: '{model_type}'. Should be one of 'MLP', 'ParallelMLP', 'KAN', 'Euclidean', or 'CNN'")
 
         return n_params
 

@@ -25,7 +25,6 @@ class GaussianDataset(BaseDataset):
         self.noise_min = 0.05
         self.noise_max = 0.35
 
-
     def sample(self) -> Tuple[  torch.tensor, 
                                 torch.tensor, 
                                 torch.tensor, 

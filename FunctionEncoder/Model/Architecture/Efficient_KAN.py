@@ -1,3 +1,7 @@
+'''
+code adapted from the efficient KAN repo, found here: https://github.com/Blealtan/efficient-kan.git
+'''
+
 import torch
 import torch.nn.functional as F
 import math
@@ -249,7 +253,7 @@ class KAN(torch.nn.Module):
         if n_layers == 1:
             n_params = (input_size * output_size * 2 + input_size * output_size * (grid_size+spline_order))
         elif n_layers == 2:
-            n_params = (input_size * hidden_size * 2 + input_size * hidden_size * (grid_size+spline_order)) + (hidden_size * output_size * 2 + hidden_size * output_size * (5+3))
+            n_params = (input_size * hidden_size * 2 + input_size * hidden_size * (grid_size+spline_order)) + (hidden_size * output_size * 2 + hidden_size * output_size * (grid_size+spline_order))
         else:
             n_params =  (input_size * hidden_size * 2 + input_size * hidden_size * (grid_size+spline_order))  + \
                         (hidden_size * hidden_size * 2 + hidden_size * hidden_size * (grid_size+spline_order))  * (n_layers - 2)  + \

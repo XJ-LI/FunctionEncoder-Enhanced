@@ -7,9 +7,9 @@ from FunctionEncoder.Model.Architecture.BaseArchitecture import BaseArchitecture
 def get_activation( activation):
     if activation == "identity":
         return torch.nn.Identity()
-    if activation == "silu":
+    elif activation == "silu":
         return torch.nn.SiLU()
-    if activation == "relu":
+    elif activation == "relu":
         return torch.nn.ReLU()
     elif activation == "tanh":
         return torch.nn.Tanh()
