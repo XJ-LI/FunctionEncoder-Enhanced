@@ -11,6 +11,8 @@ from FunctionEncoder.Model.Architecture.Euclidean import Euclidean
 from FunctionEncoder.Model.Architecture.MLP import MLP
 from FunctionEncoder.Model.Architecture.ParallelMLP import ParallelMLP
 from FunctionEncoder.Model.Architecture.Efficient_KAN import KAN
+from FunctionEncoder.Model.Architecture.MMNN import MMNN
+
 
 
 
@@ -62,6 +64,8 @@ class FunctionEncoder(torch.nn.Module):
             assert len(input_size) == 1, "ParallelMLP only supports 1D input"
         if model_type == "KAN":
             assert len(input_size) == 1, "KAN only supports 1D input"
+        if model_type == "MMNN":
+            assert len(input_size) == 1, "MMNN only supports 1D input"
         if model_type == "CNN":
             assert len(input_size) == 3, "CNN only supports 3D input"
         if isinstance(model_type, type):
@@ -139,6 +143,12 @@ class FunctionEncoder(torch.nn.Module):
                                    n_basis=self.n_basis,
                                    learn_basis_functions=not average_function,
                                    **model_kwargs)
+            elif model_type == "MMNN":
+                return MMNN(input_size=self.input_size,
+                                   output_size=self.output_size,
+                                   n_basis=self.n_basis,
+                                   learn_basis_functions=not average_function,
+                                   **model_kwargs)
             elif model_type == "Euclidean":
                 return Euclidean(input_size=self.input_size,
                                  output_size=self.output_size,
@@ -151,7 +161,7 @@ class FunctionEncoder(torch.nn.Module):
                            learn_basis_functions=not average_function,
                            **model_kwargs)
             else:
-                raise ValueError(f"Unknown model type: {model_type}. Should be one of 'MLP', 'ParallelMLP', 'KAN', 'Euclidean', or 'CNN'")
+                raise ValueError(f"Unknown model type: {model_type}. Should be one of 'MLP', 'ParallelMLP', 'KAN', 'MMNN', 'Euclidean', or 'CNN'")
         else:  # otherwise, assume it is a class and directly instantiate it
             return model_type(input_size=self.input_size,
                               output_size=self.output_size,
@@ -666,6 +676,10 @@ class FunctionEncoder(torch.nn.Module):
             n_params += KAN.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=True, **model_kwargs)
             if use_residuals_method:
                 n_params += KAN.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=False, **model_kwargs)
+        elif model_type == "MMNN":
+            n_params += MMNN.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=True, **model_kwargs)
+            if use_residuals_method:
+                n_params += MMNN.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=False, **model_kwargs)
         elif model_type == "ParallelMLP":
             n_params += ParallelMLP.predict_number_params(input_size, output_size, n_basis,  learn_basis_functions=True, **model_kwargs)
             if use_residuals_method:
@@ -683,7 +697,7 @@ class FunctionEncoder(torch.nn.Module):
             if use_residuals_method:
                 n_params += model_type.predict_number_params(input_size, output_size, n_basis, learn_basis_functions=False, **model_kwargs)
         else:
-            raise ValueError(f"Unknown model type: '{model_type}'. Should be one of 'MLP', 'ParallelMLP', 'KAN', 'Euclidean', or 'CNN'")
+            raise ValueError(f"Unknown model type: '{model_type}'. Should be one of 'MLP', 'ParallelMLP', 'KAN', 'MMNN', 'Euclidean', or 'CNN'")
 
         return n_params
 

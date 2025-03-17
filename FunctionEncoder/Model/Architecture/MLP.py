@@ -1,7 +1,11 @@
 import torch
+import torch.nn as nn
 
 from FunctionEncoder.Model.Architecture.BaseArchitecture import BaseArchitecture
 
+class SinActivation(nn.Module):
+    def forward(self, x):
+        return torch.sin(x)
 
 # Returns the desired activation function by name
 def get_activation( activation):
@@ -15,6 +19,9 @@ def get_activation( activation):
         return torch.nn.Tanh()
     elif activation == "sigmoid":
         return torch.nn.Sigmoid()
+    elif activation == "sin":
+        return SinActivation()
+        # return torch.sin
     else:
         raise ValueError(f"Unknown activation: {activation}")
 

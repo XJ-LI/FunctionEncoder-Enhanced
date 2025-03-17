@@ -8,6 +8,8 @@ from FunctionEncoder.Dataset.GaussianDataset import GaussianDataset
 from FunctionEncoder.Dataset.EuclideanDataset import EuclideanDataset
 from FunctionEncoder.Dataset.CategoricalDataset import CategoricalDataset
 from FunctionEncoder.Dataset.CIFARDataset import CIFARDataset
+from FunctionEncoder.Dataset.FourierDataset import FourierDataset
+from FunctionEncoder.Dataset.SinWavesDataset import SinWavesDataset
 
 from FunctionEncoder.Callbacks.BaseCallback import BaseCallback
 from FunctionEncoder.Callbacks.MSECallback import MSECallback
@@ -26,6 +28,8 @@ __all__ = [
     "EuclideanDataset",
     "CategoricalDataset",
     "CIFARDataset",
+    "FourierDataset",
+    "SinWavesDataset",
 
     "BaseCallback",
     "MSECallback",
