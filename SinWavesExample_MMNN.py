@@ -22,7 +22,7 @@ parser.add_argument("--rank", type=int, default=64)
 parser.add_argument("--n_layers", type=int, default=4)
 parser.add_argument("--activation", type=str, default="relu")
 parser.add_argument("--arch", choices=["MLP", "MMNN"])
-parser.add_argument("--lr", type=float, default=0.0001)
+parser.add_argument("--lr", type=float, default=0.001)
 args = parser.parse_args()
 
 

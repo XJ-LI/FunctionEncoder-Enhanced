@@ -11,7 +11,7 @@ class SinWavesDataset(BaseDataset):
                  a_range=(-1, 1),
                  b_range=(-1, 1),
                  c_range=(-1, 1),
-                 input_range=(-2, 2),
+                 input_range=(-3, 3),
                  device: str = "auto",
                  dtype: torch.dtype = torch.float32,
                  n_functions:int=None,
