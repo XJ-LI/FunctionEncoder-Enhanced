@@ -115,7 +115,7 @@ with torch.no_grad():
             ax.plot(query_xs[i].cpu(), y_hats_ip[i].cpu(), label="IP")
         if i == n_plots - 1:
             ax.legend()
-        title = f"${info['As'][i].item():.2f} sin\pi x + {info['Bs'][i].item():.2f} sin3\pi x + {info['Cs'][i].item():.2f} sin5\pi x$"
+        title = f"${info['As'][i].item():.2f} \sin({k}\pi x) + {info['Bs'][i].item():.2f} \sin(3{k}\pi x) + {info['Cs'][i].item():.2f} \sin(5{k}\pi x)$"
         ax.set_title(title)
         y_min, y_max = query_ys[i].min().item(), query_ys[i].max().item()
         ax.set_ylim(y_min, y_max)

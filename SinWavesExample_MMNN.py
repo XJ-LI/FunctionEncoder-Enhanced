@@ -12,7 +12,7 @@ import argparse
 
 # parse args
 parser = argparse.ArgumentParser()
-parser.add_argument("--n_basis", type=int, default=20)
+parser.add_argument("--n_basis", type=int, default=100)
 parser.add_argument("--train_method", type=str, default="least_squares")
 parser.add_argument("--epochs", type=int, default=1000)
 parser.add_argument("--load_path", type=str, default=None)
@@ -50,7 +50,7 @@ else:
 torch.manual_seed(seed)
 
 # create a dataset
-dataset = SinWavesDataset(n_examples=200, n_queries=1000)
+dataset = SinWavesDataset(n_examples=400, n_queries=1000)
 
 if load_path is None:
     # create the model
@@ -138,7 +138,7 @@ with torch.no_grad():
     plt.savefig(f"{logdir}/basis.png")
 
 # evaluate model
-dataset = SinWavesDataset(n_functions=2048, n_examples=200, n_queries=1000)
+dataset = SinWavesDataset(n_functions=512, n_examples=400, n_queries=1000)
 with torch.no_grad():
     example_xs, example_ys, query_xs, query_ys, info = dataset.sample()
     if train_method == "inner_product":
